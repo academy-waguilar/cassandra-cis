@@ -1,0 +1,36 @@
+services:
+  cassandra:
+    image: cassandra:latest
+    ports:
+      - "9042:9042"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=my_cluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack1
+
+  backend:
+    build:
+      context: ./packages/backend
+      dockerfile: Dockerfile
+    depends_on:
+      - cassandra
+    ports:
+      - "3000:3000"
+    environment:
+      - CASSANDRA_HOST=cassandra
+      - CASSANDRA_PORT=9042
+
+  frontend:
+    build:
+      context: ./packages/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - API_URL=http://localhost:3000
+
+volumes:
+  cassandra_data:
+

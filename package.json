@@ -1,0 +1,12 @@
+{
+  "name": "cassandra-cis",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "academy-waguilar",
+  "license": "MIT",
+  "description": "",
+  "workspaces": [
+    "packages/backend",
+    "packages/frontend"
+  ]
+}
